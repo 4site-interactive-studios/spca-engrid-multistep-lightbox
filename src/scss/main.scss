@@ -7,8 +7,6 @@ $content-font: "proxima-nova", sans-serif;
 
 body.has-DonationLightbox {
   overflow: hidden;
-  canvas {
-  }
 }
 .foursiteDonationLightbox {
   position: fixed;
@@ -21,9 +19,14 @@ body.has-DonationLightbox {
   transition: top 0.4s ease-in-out;
   overflow-y: auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   background-color: rgba(0, 0, 0, 0.7);
+  @include mq(desktop) {
+    align-items: center;
+    justify-content: center;
+  }
   &.is-hidden {
     top: -100vh;
   }
@@ -98,12 +101,14 @@ body.has-DonationLightbox {
     line-height: 1;
     z-index: 1;
     position: relative;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 30px;
     @include mq(desktop) {
       max-width: 880px;
       height: 550px;
       padding-top: 0;
+      margin: auto;
     }
     .dl-content {
       display: block;
@@ -174,8 +179,6 @@ body.has-DonationLightbox {
           display: block;
         }
         &.celebrating {
-          .dl-logo {
-          }
           .dl-celebration {
             top: 0;
             width: 100%;
@@ -361,11 +364,13 @@ body.has-DonationLightbox {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease-in-out;
+      display: none;
       &.open {
         max-height: 100%;
       }
       @include mq(desktop) {
         max-width: 100%;
+        display: block;
       }
       p {
         font-size: 12px;
@@ -376,6 +381,49 @@ body.has-DonationLightbox {
         letter-spacing: normal;
         margin: 0;
       }
+    }
+  }
+  .foursiteDonationLightbox-mobile-container {
+    display: block;
+    position: relative;
+    top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    max-width: 400px;
+    width: 93%;
+    height: initial;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #2375c9;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    @include mq(desktop) {
+      display: none;
+    }
+    h1 {
+      font-family: "Raleway", "Helvetica", "Roboto", "Arial", "sans-serif";
+      font-size: 22px;
+      font-weight: 700;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-align: center;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-family: "Raleway", "Helvetica", "Roboto", "Arial", "sans-serif";
+      font-size: 14px;
+      font-weight: 400;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: center;
+      margin: 0;
     }
   }
   .error-message {
@@ -394,6 +442,8 @@ body.has-DonationLightbox {
     border-bottom-left-radius: 5px;
     -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     @include mq(desktop) {
       border-bottom-left-radius: 0;
     }
