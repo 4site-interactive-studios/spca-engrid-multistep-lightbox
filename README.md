@@ -25,6 +25,7 @@ Every option can be set as a data attribute on the `a` tag, or as a JavaScript o
 - **image** - Main Image of the Lightbox.
 - **logo** - Logo Image Used on the center of the Lightbox. On mobile, it will be scaled down and moved to the top.
 - **title** - Title of the Lightbox.
+- **mobile_enabled** - Enable the mobile version of the lightbox. Defaults to false.
 - **mobile_title** - Title of the Lightbox on mobile.
 - **paragraph** - Content of the Lightbox.
 - **mobile_paragraph** - Content of the Lightbox on mobile.

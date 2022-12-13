@@ -9,6 +9,7 @@ export class DonationLightbox {
       logo: "",
       title: "",
       paragraph: "",
+      mobile_enabled: false,
       mobile_title: "",
       mobile_paragraph: "",
       footer: "",
@@ -56,6 +57,9 @@ export class DonationLightbox {
     if ("paragraph" in data) {
       this.options.paragraph = data.paragraph;
     }
+    if ("mobile_enabled" in data) {
+      this.options.mobile_enabled = data.mobile_enabled;
+    }
     if ("mobile_title" in data) {
       this.options.mobile_title = data.mobile_title;
     }
@@ -81,7 +85,6 @@ export class DonationLightbox {
       e.addEventListener(
         "click",
         (event) => {
-          event.preventDefault();
           // Get clicked element
           let element = event.target;
           console.log("DonationLightbox: init: clicked element: " + element);
@@ -110,6 +113,13 @@ export class DonationLightbox {
     } else {
       href = new URL(event);
       this.loadOptions();
+    }
+    // Do not build if mobile is disabled and on mobile
+    if (!this.options.mobile_enabled && this.isMobile()) {
+      return;
+    }
+    if (typeof event.preventDefault === "function") {
+      event.preventDefault();
     }
     // Delete overlay if exists
     if (this.overlay) {
@@ -383,10 +393,6 @@ export class DonationLightbox {
     }, 250);
   }
   celebrate(animate = true) {
-    const viewportWidth = Math.max(
-      document.documentElement.clientWidth || 0,
-      window.innerWidth || 0
-    );
     const leftContainer = document.querySelector(
       `#${this.overlayID} .dl-content .left`
     );
@@ -412,7 +418,7 @@ export class DonationLightbox {
 
       return;
     }
-    if (viewportWidth <= 899) {
+    if (this.isMobile()) {
       this.startConfetti();
       return;
     }
@@ -555,5 +561,13 @@ export class DonationLightbox {
         eventLabel: label,
       });
     }
+  }
+  isMobile() {
+    // Check the viewport width to see if the user is using a mobile device
+    const viewportWidth = Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0
+    );
+    return viewportWidth <= 799;
   }
 }
