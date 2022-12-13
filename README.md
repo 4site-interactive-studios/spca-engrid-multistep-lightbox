@@ -25,7 +25,9 @@ Every option can be set as a data attribute on the `a` tag, or as a JavaScript o
 - **image** - Main Image of the Lightbox.
 - **logo** - Logo Image Used on the center of the Lightbox. On mobile, it will be scaled down and moved to the top.
 - **title** - Title of the Lightbox.
+- **mobile_title** - Title of the Lightbox on mobile.
 - **paragraph** - Content of the Lightbox.
+- **mobile_paragraph** - Content of the Lightbox on mobile.
 - **bg_color** - HEX color of the left column background.
 - **text_color** - HEX color of the left column text.
 - **form_color** - HEX color for the form theme.

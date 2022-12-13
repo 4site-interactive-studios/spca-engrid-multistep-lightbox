@@ -9,6 +9,8 @@ export class DonationLightbox {
       logo: "",
       title: "",
       paragraph: "",
+      mobile_title: "",
+      mobile_paragraph: "",
       footer: "",
       bg_color: "#254d68",
       txt_color: "#FFFFFF",
@@ -54,6 +56,12 @@ export class DonationLightbox {
     if ("paragraph" in data) {
       this.options.paragraph = data.paragraph;
     }
+    if ("mobile_title" in data) {
+      this.options.mobile_title = data.mobile_title;
+    }
+    if ("mobile_paragraph" in data) {
+      this.options.mobile_paragraph = data.mobile_paragraph;
+    }
     if ("footer" in data) {
       this.options.footer = data.footer;
     }
@@ -83,16 +91,10 @@ export class DonationLightbox {
       );
     });
     window.addEventListener("message", this.receiveMessage.bind(this), false);
-    // This is for disable mobile view
-    const viewportWidth = Math.max(
-      document.documentElement.clientWidth || 0,
-      window.innerWidth || 0
-    );
     if (
       typeof window.DonationLightboxOptions !== "undefined" &&
       window.DonationLightboxOptions.hasOwnProperty("url") &&
-      !this.getCookie() &&
-      viewportWidth > 899
+      !this.getCookie()
     ) {
       this.build(window.DonationLightboxOptions.url);
     }
@@ -116,6 +118,14 @@ export class DonationLightbox {
     this.overlayID = "foursite-" + Math.random().toString(36).substring(7);
     href.searchParams.append("color", this.options.form_color);
     const markup = `
+      <div class="foursiteDonationLightbox-mobile-container">
+        <h1 class="foursiteDonationLightbox-mobile-title">${
+          this.options.mobile_title
+        }</h1>
+        <p class="foursiteDonationLightbox-mobile-paragraph">${
+          this.options.mobile_paragraph
+        }</p>
+      </div>
       <div class="foursiteDonationLightbox-container">
         ${
           this.options.logo
@@ -193,6 +203,15 @@ export class DonationLightbox {
         closeButton.click();
       }
     });
+    // If there's no mobile title & paragraph, hide the mobile container
+    if (
+      this.options.mobile_title == "" &&
+      this.options.mobile_paragraph == ""
+    ) {
+      overlay.querySelector(
+        ".foursiteDonationLightbox-mobile-container"
+      ).style.display = "none";
+    }
     this.overlay = overlay;
     document.body.appendChild(overlay);
     this.open();
@@ -364,6 +383,10 @@ export class DonationLightbox {
     }, 250);
   }
   celebrate(animate = true) {
+    const viewportWidth = Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0
+    );
     const leftContainer = document.querySelector(
       `#${this.overlayID} .dl-content .left`
     );
@@ -389,6 +412,11 @@ export class DonationLightbox {
 
       return;
     }
+    if (viewportWidth <= 899) {
+      this.startConfetti();
+      return;
+    }
+
     // Left Animation
     leftContainer.classList.add("celebrating");
     if (logo) {
