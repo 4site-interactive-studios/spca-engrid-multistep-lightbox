@@ -49,6 +49,18 @@ export class DonationLightbox {
     if ("image" in data) {
       this.options.image = data.image;
     }
+    if ("video" in data) {
+      this.options.video = data.video;
+    }
+    if ("autoplay" in data) {
+      this.options.autoplay = data.autoplay;
+    } else {
+      this.options.autoplay = false;
+    }
+    if ("divider" in data) {
+      this.options.divider = data.divider;
+    }
+
     if ("logo" in data) {
       this.options.logo = data.logo;
     }
