@@ -164,7 +164,7 @@ export class DonationLightbox {
                 ? `<img class="dl-logo" src="${this.options.logo}" alt="${this.options.title}">`
                 : ""
             }
-            <a href="#" class="dl-close-viewmore">
+            <a href="#" class="dl-close-viewmore" style="color: ${this.options.bg_color};">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
                 <path fill="currentColor" d="M7.214.786c.434-.434 1.138-.434 1.572 0 .433.434.433 1.137 0 1.571L4.57 6.572h10.172c.694 0 1.257.563 1.257 1.257s-.563 1.257-1.257 1.257H4.229l4.557 4.557c.433.434.433 1.137 0 1.571-.434.434-1.138.434-1.572 0L0 8 7.214.786z"></path>
               </svg>
@@ -218,10 +218,33 @@ export class DonationLightbox {
           </div>
         </div>
         <div class="dl-footer">
-          <p>${this.options.footer}</p>                    
+          <p>${this.options.footer}</p>
         </div>
       </div>
-            `;
+    `;
+
+    const additionalStylesElement = document.head.appendChild(document.createElement('style'));
+
+    additionalStylesElement.innerHTML = `
+      p.dl-paragraph::after {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        background: rgb(205, 228, 252);
+        background: linear-gradient(360deg, ${this.options.bg_color}, rgba(205, 228, 252, 0));
+        content: "";
+        height: 60px;
+        transition: 0.3s transform ease-in-out;
+        width: 100%;
+      }
+
+      .dl-container-inner::-webkit-scrollbar-thumb {
+        background: ${this.options.form_color};
+        border-radius: 10px;
+      }
+    `;
+
     let overlay = document.createElement("div");
     overlay.id = this.overlayID;
     overlay.classList.add("is-hidden");
