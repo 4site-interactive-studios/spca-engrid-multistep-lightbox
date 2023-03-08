@@ -162,82 +162,104 @@ body.has-DonationLightbox {
             transition: 0.3s transform ease-in-out;
             object-fit: cover;
           }
-          .btn-play {
-            position: absolute;
-            width: 84px;
-            height: 84px;
-            bottom: 20px;
-            right: 84px;
-            background-color: rgba(191, 229, 245, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            cursor: pointer;
-            svg {
-              color: #fff;
-              transition: opacity 0.6s ease-in-out;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              &.pause-svg {
-                opacity: 0;
-              }
-            }
-            transition: 0.3s transform ease-in-out;
-            &:hover {
-              transform: translateY(-10px);
-            }
-          }
         }
 
         .dl-divider {
           position: absolute;
-          transform: translateY(calc(-99% + 2px));
+          transform: translateY(calc(-99% + -6px));
           width: 100%;
           height: 25px;
           z-index: 10;
           transition: 0.3s margin-top ease-in-out, 0.3s transform ease-in-out,
             0.3s opacity ease-in-out;
         }
+
         .dl-container {
           height: 100%;
+
+          .btn-play {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.15);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: all 0.35s;
+
+            &:hover {
+              background: rgba(0, 0, 0, 0.24);
+              cursor: pointer;
+              transform: translateY(-6px);
+            }
+
+            svg {
+              width: 46px;
+              height: 54px;
+            }
+          }
+
+          .btn-pause {
+            position: absolute;
+            right: 0;
+            bottom: -70px;
+            left: 0px;
+            height: 84px;
+            background: linear-gradient(0deg, rgb(0 0 0 / 50%) 0%, rgb(0 0 0 / 0%) 100%);
+            transition: bottom 0.35s;
+
+            &:hover {
+              cursor: pointer;
+            }
+
+            svg {
+              margin-left: 30px;
+              margin-top: 15px;
+              width: 30px;
+              height: 42px;
+              transition: all 0.35s;
+            }
+          }
+
           &:hover {
             .dl-container-inner {
               transform: translateY(-5px);
+
               .dl-paragraph::after {
                 transform: translateY(5px);
               }
             }
+
             .dl-divider {
-              transform: translateY(calc(-100% - 2px));
+              transform: translateY(calc(-100% - 9px));
             }
+
             .dl-viewmore {
               opacity: 1;
             }
           }
+
           &.playing {
-            .dl-divider {
-              transform: translateY(-99%);
-            }
             .btn-play {
-              .pause-svg {
-                opacity: 1;
-              }
-              .play-svg {
-                opacity: 0;
-              }
+              opacity: 0;
+              transform: translateY(15px);
             }
-          }
-          &.paused {
-            .dl-divider {
-              transform: translateY(-99%);
+
+            .btn-pause {
+              bottom: 7px;
+
+              &:hover {
+                svg {
+                  transform: translateY(-7px);
+                }
+              }
             }
           }
         }
+
         .dl-celebration {
           position: absolute;
           top: -700px;
