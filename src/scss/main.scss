@@ -157,10 +157,14 @@ body.has-DonationLightbox {
           object-fit: cover;
           video {
             display: block;
-            width: 100%;
             min-height: 386px;
-            transition: 0.3s transform ease-in-out;
             object-fit: cover;
+            transition: 0.3s transform ease-in-out;
+            width: 100%;
+
+            // Necessary for z-index to work properly on Safari.
+            position: relative;
+            z-index: 0;
           }
         }
 
