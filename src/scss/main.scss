@@ -212,7 +212,11 @@ body.has-DonationLightbox {
             bottom: -70px;
             left: 0px;
             height: 84px;
-            background: linear-gradient(0deg, rgb(0 0 0 / 50%) 0%, rgb(0 0 0 / 0%) 100%);
+            background: linear-gradient(
+              0deg,
+              rgb(0 0 0 / 50%) 0%,
+              rgb(0 0 0 / 0%) 100%
+            );
             transition: bottom 0.35s;
 
             &:hover {
@@ -290,7 +294,6 @@ body.has-DonationLightbox {
           transition: 0.6s top ease-in-out, 0.3s transform ease-in-out;
           z-index: 20;
           .dl-title {
-            padding-top: 40px;
             margin-top: 0;
             margin-bottom: 10px;
             font-family: $title-font;
@@ -554,8 +557,7 @@ body.has-DonationLightbox {
             #254d6877 25%,
             transparent 25.5%,
             transparent 75%,
-            #254d6877 75%
-            #254d6877
+            #254d6877 75% #254d6877
           );
         background-size: 20px 35px;
         background-position: 0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px;
