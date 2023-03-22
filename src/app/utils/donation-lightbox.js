@@ -164,7 +164,9 @@ export class DonationLightbox {
                 ? `<img class="dl-logo" src="${this.options.logo}" alt="${this.options.title}">`
                 : ""
             }
-            <a href="#" class="dl-close-viewmore" style="color: ${this.options.bg_color};">
+            <a href="#" class="dl-close-viewmore" style="color: ${
+              this.options.bg_color
+            };">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
                 <path fill="currentColor" d="M7.214.786c.434-.434 1.138-.434 1.572 0 .433.434.433 1.137 0 1.571L4.57 6.572h10.172c.694 0 1.257.563 1.257 1.257s-.563 1.257-1.257 1.257H4.229l4.557 4.557c.433.434.433 1.137 0 1.571-.434.434-1.138.434-1.572 0L0 8 7.214.786z"></path>
               </svg>
@@ -223,7 +225,9 @@ export class DonationLightbox {
       </div>
     `;
 
-    const additionalStylesElement = document.head.appendChild(document.createElement('style'));
+    const additionalStylesElement = document.head.appendChild(
+      document.createElement("style")
+    );
 
     additionalStylesElement.innerHTML = `
       p.dl-paragraph::after {
@@ -282,13 +286,13 @@ export class DonationLightbox {
       if (playButton) {
         playButton.addEventListener("click", () => {
           videoElement.play();
-        })
+        });
       }
 
       if (pauseButton) {
         pauseButton.addEventListener("click", () => {
           videoElement.pause();
-        })
+        });
       }
 
       videoElement.addEventListener("play", (event) => {
@@ -339,10 +343,14 @@ export class DonationLightbox {
     const action = window.petaGA_GenericAction_Closed ?? "Closed";
     const category = window.petaGA_SplashCategory ?? "Splash Page";
     const label = window.petaGA_SplashLabel ?? this.options.name;
+    const videoElement = this.overlay.querySelector("video");
     this.sendGAEvent(category, action, label);
     e.preventDefault();
     this.overlay.classList.add("is-hidden");
     document.body.classList.remove("has-DonationLightbox");
+    if (videoElement) {
+      videoElement.pause();
+    }
     if (this.options.url) {
       this.setCookie(this.options.cookie_hours);
     }
