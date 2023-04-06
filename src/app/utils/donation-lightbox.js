@@ -501,6 +501,10 @@ export class DonationLightbox {
     }, 250);
   }
   celebrate(animate = true) {
+    const videoElement = this.overlay.querySelector("video");
+    if (videoElement) {
+      videoElement.pause();
+    }
     const leftContainer = document.querySelector(
       `#${this.overlayID} .dl-content .left`
     );
