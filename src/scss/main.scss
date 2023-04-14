@@ -2,8 +2,8 @@
 @import "fonts";
 @import "animation";
 
-$title-font: "raleway", Helvetica, Roboto, Arial, sans-serif;
-$content-font: "proxima-nova", sans-serif;
+$title-font: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+$content-font: "Open Sans", sans-serif;
 
 body.has-DonationLightbox {
   overflow: hidden;
@@ -54,18 +54,13 @@ body.has-DonationLightbox {
     height: 25px;
     z-index: 1000;
     padding: 5px;
-    background-color: #f6f7f8;
+    transition: transform 0.3s ease-in-out;
     @include mq(desktop) {
       top: 10px;
       right: 10px;
     }
     &:hover {
-      &::before {
-        transform: rotate(45deg) scale(1.5);
-      }
-      &::after {
-        transform: rotate(-45deg) scale(1.5);
-      }
+      transform: scale(1.5);
       &::before,
       &::after {
         background-color: red;
@@ -145,8 +140,6 @@ body.has-DonationLightbox {
         display: none;
         width: 100%;
         box-sizing: content-box;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
         .dl-hero {
           display: block;
           width: 100%;
@@ -275,8 +268,6 @@ body.has-DonationLightbox {
           width: 100%;
           height: 100%;
           background-color: #feba4b;
-          border-top-left-radius: 5px;
-          border-bottom-left-radius: 5px;
           z-index: 2000;
           display: flex;
           justify-content: center;
@@ -309,7 +300,7 @@ body.has-DonationLightbox {
             display: -webkit-box;
             font-family: $content-font;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 400;
             font-stretch: normal;
             font-style: normal;
             line-height: 1.63;
@@ -472,16 +463,10 @@ body.has-DonationLightbox {
         height: 550px;
         overflow: hidden;
         background-color: #fff;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
         display: flex;
         margin: auto;
         box-sizing: border-box;
         @include mq(desktop) {
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
           padding: 0 15px;
         }
         .dl-loading {
@@ -490,7 +475,7 @@ body.has-DonationLightbox {
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: #2375c9;
+          background: #00675a !important;
           z-index: 2000;
           display: flex;
           justify-content: center;
@@ -510,7 +495,6 @@ body.has-DonationLightbox {
       .dl-hero {
         object-fit: cover;
         min-height: 270px;
-        border-top-left-radius: 5px;
         background-color: #e5e5f7;
         background-image: linear-gradient(
             30deg,
@@ -612,7 +596,7 @@ body.has-DonationLightbox {
     margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #2375c9;
+    background: #00675a;
     color: #fff;
     padding: 10px;
     box-sizing: border-box;
