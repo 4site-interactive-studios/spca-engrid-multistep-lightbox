@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../engrid-wwf"
+    },
+    {
+      "path": "../engrid-scripts"
+    }
+  ],
+  "settings": {}
+}
