@@ -19,7 +19,7 @@ export class DonationLightbox {
       form_color: "#E5621A",
       url: null,
       cookie_hours: 24,
-      id: ""
+      id: "",
     };
     this.donationinfo = {};
     this.options = { ...this.defaultOptions };
@@ -459,6 +459,14 @@ export class DonationLightbox {
     const container = document.querySelector(
       ".foursiteDonationLightbox .right"
     );
+    // Check if error message already exists
+    const currentErrorMessage = container.querySelector(".error-message");
+    if (
+      currentErrorMessage &&
+      currentErrorMessage.classList.contains("dl-is-visible")
+    ) {
+      return;
+    }
     const errorMessage = document.createElement("div");
     errorMessage.classList.add("error-message");
     errorMessage.innerHTML = `<p>${error}</p><a class="close" href="#">Close</a>`;
