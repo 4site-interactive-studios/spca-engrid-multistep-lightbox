@@ -14,7 +14,7 @@ export class DonationLightbox {
       mobile_title: "",
       mobile_paragraph: "",
       footer: "",
-      bg_color: "#00675a",
+      bg_color: "#f0f2f0",
       txt_color: "#FFFFFF",
       form_color: "#E5621A",
       url: null,
