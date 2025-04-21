@@ -1,4 +1,4 @@
-# WWF ENgrid Multistep Lightbox
+# SPCA ENgrid Multistep Lightbox
 
 This project makes it easy to create links to your Engaging Networks Donation Page as a lightbox with multiple steps.
 
