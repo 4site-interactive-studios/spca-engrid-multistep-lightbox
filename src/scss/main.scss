@@ -122,7 +122,7 @@ body.has-DonationLightbox {
     padding-top: 30px;
     @include mq(desktop) {
       max-width: 880px;
-      height: 620px;
+      height: 550px;
       padding-top: 0;
       margin: auto;
     }
@@ -147,7 +147,7 @@ body.has-DonationLightbox {
           position: relative;
           transition: 0.3s transform ease-in-out;
           overflow: hidden;
-          min-height: 620px;
+          max-height: 550px;
           object-fit: cover;
           video {
             display: block;
@@ -468,7 +468,7 @@ body.has-DonationLightbox {
         position: relative;
         width: 100%;
         max-width: 400px;
-        height: 620px;
+        height: 550px;
         overflow: hidden;
         background-color: #fff;
         display: flex;

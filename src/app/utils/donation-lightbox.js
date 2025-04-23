@@ -10,7 +10,7 @@ export class DonationLightbox {
       logo: "",
       title: "",
       paragraph: "",
-      mobile_enabled: false,
+      mobile_enabled: true,
       mobile_title: "",
       mobile_paragraph: "",
       footer: "",
