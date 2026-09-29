@@ -38,6 +38,11 @@ Every option can be set as a data attribute on the `a` tag, or as a JavaScript o
 - **footer** - Content of the footer.
 - **url** - URL of the donation page - use this option if you want the lightbox to automatically open when the page loads.
 - **cookie_hours** - Number of hours to not auto open the lightbox after the user closes it.
+- **countdown_datetime** - Optional deadline; while it is still ahead, a countdown bar appears above the lightbox (DAYS while a whole day remains, then HR : MIN : SEC). `YYYY-MM-DD HH:MM[:SS]` is read in the visitor's time zone; add an offset (`2026-12-31T23:59:59-05:00`) to pin it to one. The bar goes away once the deadline passes. Without it, the lightbox is unchanged.
+- **countdown_title** - Optional heading beside the countdown (e.g. "Limited Time Match").
+- **countdown_copy** - Accepted, but not shown: the SPCAI countdown bar has no line for it.
+
+The countdown options can also be written with hyphens (`countdown-title`), which is how they read as data attributes: `data-countdown-title`, `data-countdown-datetime`.
 - **cookie_name** - Name of the cookie to set.
 - **trigger** - Can be set to any `int` value (seconds), any `px` value (scroll position in pixels), any `%` value (scroll position in percentage), or `exit` (on exit intent).
 - **gtm_open_event_name** - Name of the Google Tag Manager event to fire when the lightbox opens.

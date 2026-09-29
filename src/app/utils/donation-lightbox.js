@@ -20,6 +20,9 @@ export class DonationLightbox {
       url: null,
       cookie_hours: 24,
       id: "",
+      countdown_title: "",
+      countdown_copy: "",
+      countdown_datetime: "",
     };
     this.donationinfo = {};
     this.options = { ...this.defaultOptions };
@@ -28,6 +31,16 @@ export class DonationLightbox {
   }
   setOptions(options) {
     this.options = Object.assign(this.options, options);
+    // The countdown options may also be written with hyphens
+    // (countdown-title), as their data attributes are.
+    ["countdown_title", "countdown_copy", "countdown_datetime"].forEach(
+      (key) => {
+        const hyphenated = key.replace(/_/g, "-");
+        if (options && hyphenated in options) {
+          this.options[key] = options[hyphenated];
+        }
+      }
+    );
   }
   loadOptions(element = null) {
     if (typeof window.DonationLightboxOptions !== "undefined") {
@@ -95,6 +108,19 @@ export class DonationLightbox {
     if ("id" in data) {
       this.options.id = data.id;
     }
+    // data-countdown-title arrives as dataset.countdownTitle;
+    // data-countdown_title as dataset.countdown_title.
+    [
+      ["countdown_title", "countdownTitle"],
+      ["countdown_copy", "countdownCopy"],
+      ["countdown_datetime", "countdownDatetime"],
+    ].forEach(([key, camel]) => {
+      if (camel in data) {
+        this.options[key] = data[camel];
+      } else if (key in data) {
+        this.options[key] = data[key];
+      }
+    });
   }
   init() {
     console.log("DonationLightbox: init");
@@ -144,6 +170,15 @@ export class DonationLightbox {
     }
     this.overlayID = "foursite-" + Math.random().toString(36).substring(7);
     href.searchParams.append("color", this.options.form_color);
+    // Optional countdown bar above the lightbox, only while the deadline is
+    // still ahead (see startCountdown). Without countdown_datetime nothing
+    // about the lightbox changes. The SPCAI Figma's bar has a title and the
+    // timer only; countdown_copy is read, but not shown.
+    this.stopCountdown();
+    const countdownEnd = this.parseCountdownDate(
+      this.options.countdown_datetime
+    );
+    const hasCountdown = countdownEnd !== null && countdownEnd > Date.now();
     const markup = `
       <div class="foursiteDonationLightbox-mobile-container">
         <h1 class="foursiteDonationLightbox-mobile-title">${
@@ -153,10 +188,24 @@ export class DonationLightbox {
           this.options.mobile_paragraph
         }</p>
       </div>
-      <div class="foursiteDonationLightbox-container">
+      <div class="foursiteDonationLightbox-container${
+        hasCountdown ? " has-countdown" : ""
+      }">
         ${
           this.options.logo
             ? `<img class="dl-mobile-logo" src="${this.options.logo}" alt="${this.options.title}">`
+            : ""
+        }
+        ${
+          hasCountdown
+            ? `<div class="dl-countdown">
+            ${
+              this.options.countdown_title
+                ? `<p class="dl-countdown-title">${this.options.countdown_title}</p>`
+                : ""
+            }
+            <div class="dl-countdown-units" role="timer"></div>
+          </div>`
             : ""
         }
         <div class="dl-content">
@@ -337,6 +386,10 @@ export class DonationLightbox {
     }
     this.overlay = overlay;
     document.body.appendChild(overlay);
+    if (hasCountdown) {
+      this.loadCountdownFont();
+      this.startCountdown(countdownEnd);
+    }
     this.open();
   }
   open() {
@@ -356,6 +409,7 @@ export class DonationLightbox {
     this.sendGAEvent(category, action, label);
     e.preventDefault();
     this.overlay.classList.add("is-hidden");
+    this.stopCountdown();
     document.body.classList.remove("has-DonationLightbox");
     if (videoElement) {
       videoElement.pause();
@@ -550,6 +604,82 @@ export class DonationLightbox {
       setTimeout(() => {
         element.classList.remove("shake");
       }, 1000);
+    }
+  }
+  // Accepts "YYYY-MM-DD HH:MM[:SS]" (read as the visitor's local time), or
+  // anything Date.parse understands, e.g. an ISO string with an offset
+  // ("2026-12-31T23:59:59-05:00") to pin the deadline to one time zone.
+  // Returns a timestamp in ms, or null when empty or unreadable.
+  parseCountdownDate(value) {
+    if (!value) return null;
+    const text = String(value).trim();
+    const local = text.match(
+      /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?$/
+    );
+    const time = local
+      ? new Date(
+          Number(local[1]),
+          Number(local[2]) - 1,
+          Number(local[3]),
+          Number(local[4]),
+          Number(local[5]),
+          Number(local[6] || 0)
+        ).getTime()
+      : Date.parse(text);
+    if (Number.isNaN(time)) {
+      console.warn("DonationLightbox: unreadable countdown_datetime", value);
+      return null;
+    }
+    return time;
+  }
+  startCountdown(end) {
+    const bar = this.overlay.querySelector(".dl-countdown");
+    const units = bar.querySelector(".dl-countdown-units");
+    const pad = (n) => String(n).padStart(2, "0");
+    const tick = () => {
+      const left = Math.floor((end - Date.now()) / 1000);
+      if (left <= 0) {
+        // Deadline passed while open: drop the bar, keep the lightbox.
+        this.stopCountdown();
+        bar.remove();
+        this.overlay
+          .querySelector(".foursiteDonationLightbox-container")
+          .classList.remove("has-countdown");
+        return;
+      }
+      const days = Math.floor(left / 86400);
+      const parts = [
+        [pad(Math.floor((left % 86400) / 3600)), "hr"],
+        [pad(Math.floor((left % 3600) / 60)), "min"],
+        [pad(left % 60), "sec"],
+      ];
+      // A day block only while at least a whole day remains.
+      if (days > 0) parts.unshift([pad(days), days === 1 ? "day" : "days"]);
+      units.innerHTML = parts
+        .map(
+          ([value, label]) =>
+            `<div class="dl-countdown-unit"><span class="dl-countdown-value">${value}</span><span class="dl-countdown-label">${label}</span></div>`
+        )
+        .join(`<span class="dl-countdown-colon" aria-hidden="true">:</span>`);
+    };
+    tick();
+    this.countdownInterval = window.setInterval(tick, 1000);
+  }
+  // Oswald for the countdown bar, fetched only when a bar is shown so
+  // lightboxes without one load nothing new.
+  loadCountdownFont() {
+    if (document.getElementById("dl-countdown-font")) return;
+    const link = document.createElement("link");
+    link.id = "dl-countdown-font";
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap";
+    document.head.appendChild(link);
+  }
+  stopCountdown() {
+    if (this.countdownInterval) {
+      window.clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
     }
   }
   setCookie(hours = 24, path = "/") {

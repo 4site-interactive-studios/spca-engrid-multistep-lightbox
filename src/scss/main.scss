@@ -4,6 +4,8 @@
 
 $title-font: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
 $content-font: "Open Sans", sans-serif;
+$countdown-font: "Oswald", "Arial Narrow", Arial, sans-serif;
+$countdown-red: #e22028; // Brand - Logo red
 
 body.has-DonationLightbox {
   overflow: hidden;
@@ -126,6 +128,99 @@ body.has-DonationLightbox {
       padding-top: 0;
       margin: auto;
     }
+
+    // Optional countdown bar (countdown_title / countdown_datetime) above
+    // the lightbox, from the SPCAI Figma (qFb1Rj2yOMpz1WmJkOR6Jw, 3838:4187).
+    // On desktop the container grows by the bar and .dl-content keeps the
+    // fixed height. Oswald is loaded by the script, only when the bar shows.
+    &.has-countdown {
+      @include mq(desktop) {
+        height: auto;
+        .dl-content {
+          height: 750px;
+        }
+      }
+    }
+    .dl-countdown {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px 16px;
+      box-sizing: border-box;
+      max-width: 400px;
+      margin: 0 auto 20px;
+      padding: 12px;
+      border-radius: 4px;
+      background-color: #fff;
+      @include mq(desktop) {
+        flex-wrap: nowrap;
+        width: fit-content;
+        max-width: none;
+        min-height: 85px;
+        margin-bottom: 25px;
+        padding: 12px 24px 12px 20px;
+      }
+    }
+    .dl-countdown-title {
+      margin: 0;
+      color: $countdown-red;
+      font-family: $countdown-font;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      text-transform: uppercase;
+      @include mq(desktop) {
+        font-size: 36px;
+        line-height: 54px;
+        white-space: nowrap;
+      }
+    }
+    .dl-countdown-units {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: 6px;
+    }
+    .dl-countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 58px;
+      height: 60px;
+      border-radius: 4px;
+      background-color: $countdown-red;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .dl-countdown-value {
+      font-family: $countdown-font;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 32px;
+    }
+    .dl-countdown-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 15px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .dl-countdown-colon {
+      width: 6px;
+      color: $countdown-red;
+      font-family: $content-font;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 28px;
+      text-align: center;
+    }
+
     .dl-content {
       display: block;
       align-items: stretch;
